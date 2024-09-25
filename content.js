@@ -59,7 +59,11 @@ function extractMessages() {
     const shadowHosts9 = shadowRoot8.querySelectorAll("div > div.attribution-container > div > cib-attribution-item");
     const shadowRoots10 = Array.from(shadowHosts9).map(sh => getShadowRoot(sh)).filter(Boolean);
     const linkEls = shadowRoots10.map(sr => sr.querySelector("a")).filter(Boolean);
-    const links = linkEls.map(el => `${el.getAttribute('aria-label')}})`).join("\n");
+    let links = linkEls.map(el => {
+        let ariaLabel = el.getAttribute('aria-label');
+        let href = el.getAttribute('href');
+        return `[${ariaLabel}](${href})`;
+    }).join('\n');
 
     const messageWithLinks = links ? `${messages[index]}\n${links}` : messages[index];
     messagesWithLinks.push(messageWithLinks);
